@@ -1,0 +1,22 @@
+function SM = Visual_saliency_map(I)
+I_padded = padarray(I, [1, 1], 'symmetric');
+SM = zeros(size(I));
+center = I_padded(2:end-1, 2:end-1);
+up = I_padded(1:end-2, 2:end-1);
+SM = SM + abs(center - up);
+down = I_padded(3:end, 2:end-1);
+SM = SM + abs(center - down);
+left = I_padded(2:end-1, 1:end-2);
+SM = SM + abs(center - left);
+right = I_padded(2:end-1, 3:end);
+SM = SM + abs(center - right);
+up_left = I_padded(1:end-2, 1:end-2);
+SM = SM + abs(center - up_left) / sqrt(2);
+up_right = I_padded(1:end-2, 3:end);
+SM = SM + abs(center - up_right) / sqrt(2);
+down_left = I_padded(3:end, 1:end-2);
+SM = SM + abs(center - down_left) / sqrt(2);
+down_right = I_padded(3:end, 3:end);
+SM = SM + abs(center - down_right) / sqrt(2);
+SM = mat2gray(SM);
+end
